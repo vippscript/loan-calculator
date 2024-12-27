@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة القروض</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eaf4fc;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .calculator {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 90%;
+            margin: 0 auto;
+        }
+        .calculator input[type="text"],
+        .calculator input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f7fbff;
+            box-sizing: border-box;
+        }
+        .calculator button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .calculator button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 18px;
+            color: #2c3e50;
+        }
+        .result div {
+            margin: 5px 0;
+            padding: 5px;
+            background-color: #e9f7ef;
+            border-radius: 5px;
+        }
+        .result span {
+            font-weight: bold;
+            color: #155724;
+        }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 24px;
+            }
+            .calculator {
+                padding: 15px;
+            }
+            .calculator button {
+                font-size: 14px;
+            }
+            .result {
+                font-size: 16px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>حاسبة القروض</h1>
+
+        <label for="salary">الراتب الشخصي</label>
+        <input type="number" id="salary" placeholder="أدخل الراتب الشخصي">
+
+        <label for="financial-obligations">التعثرات المالية</label>
+        <input type="number" id="financial-obligations" placeholder="أدخل التعثرات المالية">
+
+        <button onclick="calculateLoan()">احسب</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateLoan() {
+            const salary = parseFloat(document.getElementById('salary').value);
+            const obligations = parseFloat(document.getElementById('financial-obligations').value);
+
+            if (isNaN(salary)) {
+                document.getElementById('result').innerText = 'الرجاء إدخال قيم صحيحة';
+                return;
+            }
+
+            const multipliers = [16, 16.5, 17, 17.5, 18, 18.5, 19, 19.5, 20, 21, 22];
+            const results = multipliers.map(multiplier => {
+                const gross = salary * multiplier;
+                const netWithObligations = gross - (obligations || 0);
+                return `<div>${multiplier}: <span>${netWithObligations.toFixed(2)}</span> ريال</div>`;
+            });
+
+            document.getElementById('result').innerHTML = `
+                <strong>نتائج الحساب:</strong><br>
+                ${results.join('')}
+            `;
+        }
+    </script>
+</body>
+</html>
